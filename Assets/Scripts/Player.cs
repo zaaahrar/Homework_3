@@ -12,13 +12,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private LayerMask _ground;
+    [SerializeField] private bool _isGround;
 
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody2D;
 
-    [SerializeField] private bool _isGround;
     private float _rayDistance = 1f;
+
+    private int _isMovementHash = Animator.StringToHash("isMovement");
 
     private void Awake()
     {
@@ -29,17 +31,17 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Movement();
+        Move();
         CheckGround();
     }
 
-    private void Movement()
+    private void Move()
     {
         if (Input.GetKey(KeyCode.D))
         {
             _spriteRenderer.flipX = false;
             transform.Translate(_speed * Time.deltaTime, 0, 0);
-            _animator.SetBool("isMovement", true);
+            _animator.SetBool(_isMovementHash, true);
 
             if (Input.GetKeyDown(KeyCode.Space) && _isGround)
             {
@@ -50,7 +52,7 @@ public class Player : MonoBehaviour
         {
             _spriteRenderer.flipX = true;
             transform.Translate(-_speed * Time.deltaTime, 0, 0);
-            _animator.SetBool("isMovement", true);
+            _animator.SetBool(_isMovementHash, true);
 
             if (Input.GetKeyDown(KeyCode.Space) && _isGround)
             {
@@ -63,7 +65,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _animator.SetBool("isMovement", false);
+            _animator.SetBool(_isMovementHash, false);
         }
     }
 
@@ -76,19 +78,12 @@ public class Player : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(_rigidbody2D.position, Vector2.down, _rayDistance, _ground);
 
-        if(hit.collider != null)
-        {
-            _isGround = true;
-        }
-        else
-        {
-            _isGround = false;
-        }
+        _isGround = hit.collider != null ? true : false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Border"))
+        if (collision.collider.TryGetComponent<Border>(out Border border))
         {
             transform.position = Vector3.zero;
         }

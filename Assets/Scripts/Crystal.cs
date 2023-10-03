@@ -10,10 +10,11 @@ public class Crystal : MonoBehaviour
     [SerializeField] private UnityEvent _collect;
     
     private Animator _animator;
+    private int _isCollectHash = Animator.StringToHash("isCollect");
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>(); 
+        _animator = GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,7 +27,7 @@ public class Crystal : MonoBehaviour
 
     public void Collect()
     {
-        _animator.SetTrigger("isCollect");
+        _animator.SetTrigger(_isCollectHash);
         Destroy(gameObject, 0.3f);
     }
 }
