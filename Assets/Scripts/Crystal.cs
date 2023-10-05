@@ -10,6 +10,7 @@ public class Crystal : MonoBehaviour
     [SerializeField] private UnityEvent _collect;
     
     private Animator _animator;
+    private float _animationTime = 0.3f;
     private int _isCollectHash = Animator.StringToHash("isCollect");
 
     private void Awake()
@@ -28,6 +29,6 @@ public class Crystal : MonoBehaviour
     public void Collect()
     {
         _animator.SetTrigger(_isCollectHash);
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, _animationTime);
     }
 }
