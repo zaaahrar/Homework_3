@@ -1,19 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpawnerCrystals : MonoBehaviour
+public class SpawnerWeapons : MonoBehaviour
 {
     [SerializeField] private Transform _parent;
-    [SerializeField] private Crystal _instance;
+    [SerializeField] private GameObject _instance;
 
     private Transform[] _positions;
 
-    private void Start()
+    private void Awake()
     {
         FillArray();
-        SpawnCrystals();
+        Spawn();
     }
 
     private void FillArray()
@@ -26,9 +23,9 @@ public class SpawnerCrystals : MonoBehaviour
         }
     }
 
-    private void SpawnCrystals()
+    private void Spawn()
     {
-        foreach (Transform position in _positions)
+        foreach(Transform position in _positions)
         {
             Instantiate(_instance, position);
         }
