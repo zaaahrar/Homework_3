@@ -23,14 +23,6 @@ public class Player : MonoBehaviour
         _health = GetComponent<PlayerHealth>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.GetComponent<Border>())
-        {
-            transform.position = Vector3.zero;
-        }
-    }
-
     public void Bounce(Vector2 direction)
     {
         _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
@@ -40,5 +32,10 @@ public class Player : MonoBehaviour
     {
         if (collision.TryGetComponent(out Crystal crystal))
             crystal.Collect();
+
+        if (collision.TryGetComponent(out Border border))
+        {
+            transform.position = Vector3.zero;
+        }
     }
 }
