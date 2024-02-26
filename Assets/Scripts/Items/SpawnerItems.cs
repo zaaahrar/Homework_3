@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpawnerWeapons : MonoBehaviour
+public class SpawnerItems : MonoBehaviour
 {
     [SerializeField] private Transform _parent;
     [SerializeField] private GameObject _instance;

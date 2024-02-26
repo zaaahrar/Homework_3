@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CheckerPlayerAboveHead : MonoBehaviour
+public class VulnerableZone : MonoBehaviour
 {
     [SerializeField] private Enemy enemy;
 

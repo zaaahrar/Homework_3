@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class Attacker : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out CheckerPlayerAboveHead checker))
+        if (collision.TryGetComponent(out VulnerableZone checker))
         {
             checker.EnemyDied();
         }

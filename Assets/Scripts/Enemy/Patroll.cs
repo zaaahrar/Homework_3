@@ -2,15 +2,14 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerStalking))]
 [RequireComponent(typeof(Enemy))]
-public class Patrolling : MonoBehaviour
+public class Patroll : MonoBehaviour
 {
     [SerializeField] private Transform[] _points = new Transform[2];
     [SerializeField] private LayerMask _playerMask;
-    [SerializeField] protected bool _isStalking;
+    [SerializeField] private bool _isStalking;
 
-    private readonly int StartPoint = 0;
-    private readonly int EndPoint = 1;
-    private readonly float Interval = 0.2f;
+    private const int NumberTurn = 0;
+    private const float TouchDistance = 0.2f;
 
     private float _rayDistance = 4;
     private int _point;
@@ -23,10 +22,11 @@ public class Patrolling : MonoBehaviour
     private Enemy _enemy;
 
     public Vector3 CurrentTurn => _currentTurn;
+    public bool IsStalking => _isStalking;
 
     private void Awake()
     {
-        _point = StartPoint;
+        _point = 0;
         _playerStalking = GetComponent<PlayerStalking>();
         _enemy = GetComponent<Enemy>();
     }
@@ -42,34 +42,34 @@ public class Patrolling : MonoBehaviour
         }
         else
         {
+            MoveThroughPoints();
             _isStalking = false;
-        }
-
-        if (!_isStalking)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, _points[_point].position, _enemy.Speed * Time.deltaTime);
-            CheckDistanceToPoint();          
         }
     }
 
-    private void CheckDistanceToPoint()
+    private void MoveThroughPoints()
     {
-        if (Vector2.Distance(transform.position, _points[_point].position) < Interval)
+
+        transform.position = Vector3.MoveTowards(transform.position, _points[_point].position, _enemy.Speed * Time.deltaTime);
+
+        if (Vector2.Distance(transform.position, _points[_point].position) < TouchDistance)
         {
-            if (_point == StartPoint)
+            _point++;
+            _rayDistance *= -1;
+
+            if (_point == _points.Length)
+                _point = 0;
+
+            if (transform.position.x - _points[_point].position.x > NumberTurn)
             {
                 transform.localScale = _turnRight;
                 _currentTurn = _turnRight;
-                _point = EndPoint;
             }
             else
             {
                 transform.localScale = _turnLeft;
                 _currentTurn = _turnLeft;
-                _point = StartPoint;
-            }
-
-            _rayDistance *= -1;
+            }  
         }
     }
 }

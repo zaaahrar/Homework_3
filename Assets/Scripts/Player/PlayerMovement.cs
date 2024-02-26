@@ -7,7 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _ground;
     [SerializeField] private bool _isGround;
 
-    private readonly float RayDistance = 1;
+    private const float RayDistance = 1;
+    private const int NumberMovementsRight = 1;
+    private const int NumberMovementsLeft = -1;
 
     private Animator _animator;
     private Player _player; 
@@ -25,32 +27,19 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Move();
-        CheckGround();
     }
 
     private void Move()
     {
+        CheckGround();
+
         if (Input.GetKey(KeyCode.D))
         {
-            transform.localScale = _turnRight;
-            transform.Translate(_player.Speed * Time.deltaTime, 0, 0);
-            _animator.SetBool(IsMovementHash, true);
-
-            if (Input.GetKeyDown(KeyCode.Space) && _isGround)
-            {
-                Jump();
-            }
+            MoveHorizontally(_turnRight, NumberMovementsRight);
         }
         else if (Input.GetKey(KeyCode.A))
         {
-            transform.localScale = _turnLeft;
-            transform.Translate(-_player.Speed * Time.deltaTime, 0, 0);
-            _animator.SetBool(IsMovementHash, true);
-
-            if (Input.GetKeyDown(KeyCode.Space) && _isGround)
-            {
-                Jump();
-            }
+            MoveHorizontally(_turnLeft, NumberMovementsLeft);
         }
         else if (Input.GetKeyDown(KeyCode.Space) && _isGround)
         {
@@ -70,7 +59,18 @@ public class PlayerMovement : MonoBehaviour
     private void CheckGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(_player.Rigidbody2D.position, Vector2.down, RayDistance, _ground);
-
         _isGround = hit.collider != null;
+    }
+
+    private void MoveHorizontally(Vector3 turn, int direction)
+    {
+        transform.localScale = turn;
+        transform.Translate(_player.Speed * direction * Time.deltaTime, 0, 0);
+        _animator.SetBool(IsMovementHash, true);
+
+        if (Input.GetKeyDown(KeyCode.Space) && _isGround)
+        {
+            Jump();
+        }
     }
 }

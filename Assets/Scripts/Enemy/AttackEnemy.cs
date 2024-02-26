@@ -1,56 +1,51 @@
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Patrolling))]
+[RequireComponent(typeof(Patroll))]
 public class AttackEnemy : MonoBehaviour
 {
-    [SerializeField] private bool _isAttack = false;
-    [SerializeField] private float _colldown = 2;
+    [SerializeField] private int _damage;
+    [SerializeField] private bool _canAttack;
+    [SerializeField] private WaitForSeconds _colldown = new WaitForSeconds(2);
 
-    private Patrolling _patrolling;
-    private float _time;
+    private const int rightTurnNumber = 1;
+    private const int leftTurnNumber = -1;
 
+    private Patroll _patrolling;
+  
     private void Awake()
     {
-        _patrolling = GetComponent<Patrolling>();
+        _patrolling = GetComponent<Patroll>();
+        _canAttack = true;
     }
 
-    private void Update()
+    private IEnumerator DelayFiring()
     {
-        if(_time < _colldown)
-        {
-            _time += Time.deltaTime;
-        }
-        else
-        {
-            _isAttack = true;
-        }
+        yield return _colldown;
+        _canAttack = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.TryGetComponent(out Player player))
         {
-            if (_isAttack)
+            if (_canAttack && _patrolling.IsStalking)
             {
-                int turnRight = 1;
-                int turnLeft = -1;
+                Vector2 reboundRight = (Vector2.right  + Vector2.up) * player.ReboundForce;
+                Vector2 reboundLeft = (Vector2.left + Vector2.up) * player.ReboundForce;
 
-                player.TakeHealth();
-                player.CheckDie();
+                player.Health.TakeDamage(_damage);    
 
-                if (_patrolling.CurrentTurn.x == turnRight)
+                if (_patrolling.CurrentTurn.x == rightTurnNumber)
                 {
-                    player.Rigidbody2D.AddForce(Vector2.left * player.ReboundForce, ForceMode2D.Impulse);
-                    player.Rigidbody2D.AddForce(Vector2.up * player.ReboundForce, ForceMode2D.Impulse);
-                }
-                else if (_patrolling.CurrentTurn.x == turnLeft)
-                {
-                    player.Rigidbody2D.AddForce(Vector2.right * player.ReboundForce, ForceMode2D.Impulse);
-                    player.Rigidbody2D.AddForce(Vector2.up * player.ReboundForce, ForceMode2D.Impulse);
+                    player.Bounce(reboundLeft);
                 }
 
-                _isAttack = false;
-                _time = 0;
+                else if (_patrolling.CurrentTurn.x == leftTurnNumber)
+                    player.Bounce(reboundRight);
+
+                _canAttack = false;
+                StartCoroutine(DelayFiring());
             }   
         }
     }
