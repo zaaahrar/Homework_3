@@ -12,7 +12,7 @@ public class PlayerTriggerChecking : MonoBehaviour
             {
                 cherry.Collect();
                 _player.Health.AddHealth(cherry.Heal);
-                Destroy(cherry.gameObject);
+                DestroyImmediate(cherry.gameObject);
             }
         }
 
