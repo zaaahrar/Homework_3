@@ -8,21 +8,16 @@ public class PlayerTriggerChecking : MonoBehaviour
     {
         if (collision.TryGetComponent(out Cherry cherry))
         {
-            if (cherry.IsCollect == false)
-            {
-                cherry.Collect();
-                _player.Health.AddHealth(cherry.Heal);
-                DestroyImmediate(cherry.gameObject);
-            }
+            collision.GetComponent<Collider2D>().enabled = false;
+            _player.Health.AddHealth(cherry.Heal);
+            Destroy(cherry.gameObject);
         }
 
         if (collision.TryGetComponent(out Crystal crystal))
         {
-            if (crystal.IsCollect == false)
-            {
-                crystal.Collect();
-                Destroy(crystal.gameObject, crystal.AnimationTime);
-            }
+            collision.GetComponent<Collider2D>().enabled = false;
+            crystal.Collect();
+            Destroy(crystal.gameObject, crystal.AnimationTime);
         }
 
         if (collision.TryGetComponent(out Border _))
