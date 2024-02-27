@@ -1,26 +1,32 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerHealth))]
+[RequireComponent(typeof(Health))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _reboundForce;
+    [SerializeField] private LoadScenes _loadScenes;
 
     private Rigidbody2D _rigidbody2D;
-    private PlayerHealth _health;
+    private Health _health;
+    private int _startScene = 0;
 
-    public PlayerHealth Health => _health;
+    public Health Health => _health;
     public Rigidbody2D Rigidbody2D => _rigidbody2D;
-    public float ReboundForce => _reboundForce;
-    public float Speed => _speed;
-    public float JumpForce => _jumpForce;
 
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _health = GetComponent<PlayerHealth>();
+        _health = GetComponent<Health>();
+    }
+
+    private void OnEnable()
+    {
+        _health.IsDead += Die;
+    }
+
+    private void OnDisable()
+    {
+        _health.IsDead -= Die;
     }
 
     public void Bounce(Vector2 direction)
@@ -28,14 +34,8 @@ public class Player : MonoBehaviour
         _rigidbody2D.AddForce(direction, ForceMode2D.Impulse);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Die()
     {
-        if (collision.TryGetComponent(out Crystal crystal))
-            crystal.Collect();
-
-        if (collision.TryGetComponent(out Border border))
-        {
-            transform.position = Vector3.zero;
-        }
+        _loadScenes.LoadScene(_startScene);
     }
 }

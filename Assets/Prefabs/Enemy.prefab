@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9856dda260adfe4da0248e732af4dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reboundForce: 4
   _damage: 1
   _canAttack: 0
 --- !u!114 &151909503970371804
@@ -255,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0a56e5c9f184e4fb64ccd48dcd27b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speedStalking: 2
 --- !u!114 &578274758414731826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f708d046e385ff94aa434f511420f38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 1
   _points:
   - {fileID: 0}
   - {fileID: 0}
@@ -286,8 +289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91a054b3385a3543a82a9a056aed03a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1
-  _speedStalking: 2.5
 --- !u!50 &2787800836354056120
 Rigidbody2D:
   serializedVersion: 4
@@ -348,3 +349,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0a56e5c9f184e4fb64ccd48dcd27b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speedStalking: 0

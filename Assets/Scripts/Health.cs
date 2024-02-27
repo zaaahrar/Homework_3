@@ -1,26 +1,33 @@
+using System;
 using UnityEngine;
 
-public abstract class Health : MonoBehaviour
+public class Health : MonoBehaviour
 {
-    [SerializeField] protected float MaxHealth;
-    [SerializeField] protected float CurrentHealth;
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _currentHealth;
+
+    public event Action IsDead;
+
+    public float MaxHealth => _maxHealth;
+    public float CurrentHealth => _currentHealth;
+
+    private void Start()
+    {
+        _currentHealth = _maxHealth;
+    }
 
     public void TakeDamage(int damage)
     {
-        CurrentHealth -= damage;
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        _currentHealth -= damage;
+        _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
 
         if (CurrentHealth == 0)
-        {
-            Die();
-        }
+            IsDead?.Invoke();
     }
 
     public void AddHealth(int heal)
     {
-        CurrentHealth += heal;
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        _currentHealth += heal;
+        _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
     }
-
-    public abstract void Die();
 }

@@ -3,20 +3,19 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Crystal : MonoBehaviour
 {
-    private const float AnimationTime = 0.3f;
-
+    private float _animationTime = 0.3f;
     private int _isCollectHash = Animator.StringToHash("isCollect");
     private Animator _animator;
+    private bool _isCollect = false;
 
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
+    public bool IsCollect => _isCollect;
+    public float AnimationTime => _animationTime;
+
+    private void Awake() => _animator = GetComponent<Animator>();
 
     public void Collect()
     {
         _animator.SetTrigger(_isCollectHash);
-        Destroy(this);
-        Destroy(gameObject, AnimationTime);
+        _isCollect = true;
     }
 }

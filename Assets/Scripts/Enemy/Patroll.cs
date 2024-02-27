@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class Patroll : MonoBehaviour
 {
+    [SerializeField] private float _speed;
+
     [SerializeField] private Transform[] _points = new Transform[2];
     [SerializeField] private LayerMask _playerMask;
     [SerializeField] private bool _isStalking;
@@ -12,21 +14,18 @@ public class Patroll : MonoBehaviour
     private const float TouchDistance = 0.2f;
 
     private float _rayDistance = 4;
-    private int _point;
+    private int _point = 0;
 
     private Vector3 _turnLeft = new Vector3(-1, 1, 0);
     private Vector3 _turnRight = new Vector3(1, 1, 0);
-    private Vector3 _currentTurn;
 
     private PlayerStalking _playerStalking;
     private Enemy _enemy;
 
-    public Vector3 CurrentTurn => _currentTurn;
     public bool IsStalking => _isStalking;
 
     private void Awake()
     {
-        _point = 0;
         _playerStalking = GetComponent<PlayerStalking>();
         _enemy = GetComponent<Enemy>();
     }
@@ -49,8 +48,7 @@ public class Patroll : MonoBehaviour
 
     private void MoveThroughPoints()
     {
-
-        transform.position = Vector3.MoveTowards(transform.position, _points[_point].position, _enemy.Speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _points[_point].position, _speed * Time.deltaTime);
 
         if (Vector2.Distance(transform.position, _points[_point].position) < TouchDistance)
         {
@@ -63,12 +61,10 @@ public class Patroll : MonoBehaviour
             if (transform.position.x - _points[_point].position.x > NumberTurn)
             {
                 transform.localScale = _turnRight;
-                _currentTurn = _turnRight;
             }
             else
             {
                 transform.localScale = _turnLeft;
-                _currentTurn = _turnLeft;
             }  
         }
     }

@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent (typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float _speed;
+    [SerializeField] private float _jumpForce;
+
     [SerializeField] private LayerMask _ground;
     [SerializeField] private bool _isGround;
 
@@ -13,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator _animator;
     private Player _player; 
+
     private Vector3 _turnLeft = new Vector3(-1, 1, 0);
     private Vector3 _turnRight = new Vector3(1, 1, 0);
 
@@ -26,34 +30,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Move();
-    }
-
-    private void Move()
-    {
         CheckGround();
 
         if (Input.GetKey(KeyCode.D))
-        {
             MoveHorizontally(_turnRight, NumberMovementsRight);
-        }
         else if (Input.GetKey(KeyCode.A))
-        {
             MoveHorizontally(_turnLeft, NumberMovementsLeft);
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && _isGround)
-        {
-            Jump();
-        }
         else
-        {
             _animator.SetBool(IsMovementHash, false);
-        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && _isGround)
+            Jump();
     }
 
     private void Jump()
     {
-        _player.Rigidbody2D.AddForce(new Vector2(0, _player.JumpForce), ForceMode2D.Impulse);
+        _player.Rigidbody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
     }
 
     private void CheckGround()
@@ -65,12 +57,7 @@ public class PlayerMovement : MonoBehaviour
     private void MoveHorizontally(Vector3 turn, int direction)
     {
         transform.localScale = turn;
-        transform.Translate(_player.Speed * direction * Time.deltaTime, 0, 0);
+        transform.Translate(_speed * direction * Time.deltaTime, 0, 0);
         _animator.SetBool(IsMovementHash, true);
-
-        if (Input.GetKeyDown(KeyCode.Space) && _isGround)
-        {
-            Jump();
-        }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class PlayerStalking : MonoBehaviour
 {
+    [SerializeField] private float _speedStalking;
     private Enemy _enemy;
 
     private void Awake()
@@ -12,6 +13,6 @@ public class PlayerStalking : MonoBehaviour
 
     public void CanFollow(Collider2D collider)
     {
-        transform.position = Vector3.MoveTowards(transform.position, collider.transform.position, _enemy.SpeedStalking * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, collider.transform.position, _speedStalking * Time.deltaTime);
     }
 }

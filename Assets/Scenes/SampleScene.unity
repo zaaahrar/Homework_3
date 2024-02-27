@@ -4857,9 +4857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292fc1e781b3353498bedf034f0dcc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
-  _jumpForce: 7
-  _reboundForce: 4
 --- !u!95 &1686255739
 Animator:
   serializedVersion: 5
@@ -4893,6 +4890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00dde208c247289428af626625fa1503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 2
+  _jumpForce: 7
   _ground:
     serializedVersion: 2
     m_Bits: 64

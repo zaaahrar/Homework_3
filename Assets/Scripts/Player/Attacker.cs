@@ -4,9 +4,9 @@ public class Attacker : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out VulnerableZone checker))
+        if (collision.TryGetComponent(out VulnerableZone vulnerableZone))
         {
-            checker.EnemyDied();
+            vulnerableZone.EnemyDied();
         }
     }
 }
