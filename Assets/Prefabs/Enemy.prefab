@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8247808338718339318}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 219742980354696027}
   - component: {fileID: 5578438796737559751}
   - component: {fileID: 3808074037256957330}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 486348159940462247}
   - component: {fileID: 3751444836433452871}
   - component: {fileID: 3830158973852121490}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Checker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3192368417663504027}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 2787800836354056003}
   - component: {fileID: 5513951126260519812}
   - component: {fileID: 8175519527530689306}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,8 +420,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _reboundForce: 4
-  _damage: 1
+  _damage: 40
   _canAttack: 0
+  _colldownTime: 0
 --- !u!114 &578274758414731826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f708d046e385ff94aa434f511420f38f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.1
+  _speed: 1
   _points:
   - {fileID: 0}
   - {fileID: 0}
@@ -527,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716e0295d51f36a42b0daf609753f514, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 2
+  _maxHealth: 80
   _currentHealth: 0
 --- !u!1 &4188553777012764750
 GameObject:
@@ -541,7 +542,7 @@ GameObject:
   - component: {fileID: 8787242375104525330}
   - component: {fileID: 7033438034107234493}
   - component: {fileID: 8773845317938832154}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +643,7 @@ GameObject:
   - component: {fileID: 5196380623225137579}
   - component: {fileID: 715908891675076308}
   - component: {fileID: 2984856739804344340}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +718,7 @@ GameObject:
   - component: {fileID: 6829477562832740831}
   - component: {fileID: 3032591902797206556}
   - component: {fileID: 5564697098269453670}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

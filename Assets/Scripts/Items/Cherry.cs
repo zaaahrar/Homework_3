@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Cherry : MonoBehaviour
 {
-    private int _heal = 1;
+    [SerializeField] private int _heal;
 
     public int Heal => _heal;
 }

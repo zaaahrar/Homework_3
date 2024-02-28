@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HealthBar : Bar
 {
-    private const float MaxDelta = 3;
+    private const float MaxDelta = 40;
     private Coroutine _currentCoroutine;
 
     public override void OnHealthChanged(float newHealth)

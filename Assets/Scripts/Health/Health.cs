@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
         _currentHealth = _maxHealth;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
@@ -27,7 +27,7 @@ public class Health : MonoBehaviour
             IsDead?.Invoke();
     }
 
-    public void AddHealth(int heal)
+    public void AddHealth(float heal)
     {
         _currentHealth += heal;
         _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
