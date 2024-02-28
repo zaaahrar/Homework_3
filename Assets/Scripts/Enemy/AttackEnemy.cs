@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Patroll))]
@@ -7,12 +8,13 @@ public class AttackEnemy : MonoBehaviour
     [SerializeField] private float _reboundForce;
     [SerializeField] private int _damage;
     [SerializeField] private bool _canAttack;
-    [SerializeField] private WaitForSeconds _colldown = new WaitForSeconds(2);
+    [SerializeField] private int _colldownTime;
 
     private const int _firstContact = 0;
 
     private Vector2 _reboundRight;
     private Vector2 _reboundLeft;
+    private WaitForSeconds _colldown;
 
     private Patroll _patrolling;
   
@@ -20,7 +22,7 @@ public class AttackEnemy : MonoBehaviour
     {
         _patrolling = GetComponent<Patroll>();
         _canAttack = true;
-
+        _colldown = new WaitForSeconds(_colldownTime);
         _reboundRight = (Vector2.right + Vector2.up) * _reboundForce;
         _reboundLeft = (Vector2.left + Vector2.up) * _reboundForce;
     }

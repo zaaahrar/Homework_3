@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class VulnerableZone : MonoBehaviour
 {
-    [SerializeField] private Enemy enemy;
+    [SerializeField] private Enemy _enemy;
+    [SerializeField] private int _damage;
 
-    public void EnemyDied()
-    {
-        Destroy(enemy.gameObject);
-    }
+    public Enemy Enemy => _enemy;
 }

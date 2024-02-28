@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStalking))]
-[RequireComponent(typeof(Enemy))]
 public class Patroll : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -20,14 +19,12 @@ public class Patroll : MonoBehaviour
     private Vector3 _turnRight = new Vector3(1, 1, 0);
 
     private PlayerStalking _playerStalking;
-    private Enemy _enemy;
 
     public bool IsStalking => _isStalking;
 
     private void Awake()
     {
         _playerStalking = GetComponent<PlayerStalking>();
-        _enemy = GetComponent<Enemy>();
     }
 
     private void Update()

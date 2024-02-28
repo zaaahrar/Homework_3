@@ -7,6 +7,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float _currentHealth;
 
     public event Action IsDead;
+    public event Action<float> DisplayHealth;
 
     public float MaxHealth => _maxHealth;
     public float CurrentHealth => _currentHealth;
@@ -20,6 +21,7 @@ public class Health : MonoBehaviour
     {
         _currentHealth -= damage;
         _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        DisplayHealth?.Invoke(_currentHealth);
 
         if (CurrentHealth == 0)
             IsDead?.Invoke();
@@ -29,5 +31,6 @@ public class Health : MonoBehaviour
     {
         _currentHealth += heal;
         _currentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        DisplayHealth?.Invoke(_currentHealth);
     }
 }
