@@ -54,7 +54,7 @@ public class Ability : MonoBehaviour
             }
             else
             {
-                i = _duration;
+                break;
             }
 
             yield return _second;
