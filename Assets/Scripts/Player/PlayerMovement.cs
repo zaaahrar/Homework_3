@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     private const float RayDistance = 1;
 
-    private float _horizontalDirection;
     private Animator _animator;
     private Player _player; 
 
@@ -31,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         CheckGround();
+        MoveHorizontally(_playerInput.HorizontalDirection);
     }
 
     public void TryJump()
@@ -45,18 +45,17 @@ public class PlayerMovement : MonoBehaviour
         _isGround = hit.collider != null;
     }
 
-    public void MoveHorizontally()
+    public void MoveHorizontally(float horizontalDirection)
     {
-        _horizontalDirection = Input.GetAxisRaw("Horizontal");
         _animator.SetBool(IsMovementHash, true);
 
-        if (_horizontalDirection > 0)
+        if (horizontalDirection > 0)
             transform.localScale = _turnRight;
-        else if(_horizontalDirection < 0)
+        else if(horizontalDirection < 0)
             transform.localScale = _turnLeft;
         else
             _animator.SetBool(IsMovementHash, false);
 
-        transform.Translate(_speed * _horizontalDirection * Time.deltaTime, 0, 0);
+        transform.Translate(_speed * horizontalDirection * Time.deltaTime, 0, 0);
     }
 }

@@ -21,12 +21,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _health.IsDead += Die;
+        _health.Die += Die;
     }
 
     private void OnDisable()
     {
-        _health.IsDead -= Die;
+        _health.Die -= Die;
     }
 
     public void Bounce(Vector2 direction)
