@@ -14,7 +14,6 @@ public class Ability : MonoBehaviour
     private WaitForSeconds _cooldown;
     private WaitForSeconds _second = new WaitForSeconds(1);
     private Player _player;
-    private Enemy _enemy;
 
     private void Awake()
     {
@@ -22,17 +21,16 @@ public class Ability : MonoBehaviour
         _cooldown = new WaitForSeconds(_cooldownTime);
     }
 
-    private void Update()
+    public void Use()
     {
-        if (Input.GetKeyDown(KeyCode.F) && _canConjure)
+        if (_canConjure)
         {
             _canConjure = false;
-            Collider2D collider = Physics2D.OverlapCircle(transform.position, _radius, _enemyMask);
+            Enemy enemy = SearchEnemy();
 
-            if (collider != null)
+            if (enemy != null)
             {
-                _enemy = collider.GetComponent<Enemy>();
-                StartCoroutine(LifeDrain(_enemy));
+                StartCoroutine(LifeDraining(enemy));
             }
             else
             {
@@ -41,16 +39,37 @@ public class Ability : MonoBehaviour
         }
     }
 
-    private IEnumerator LifeDrain(Enemy enemy)
+    private Enemy SearchEnemy()
+    {
+        Collider2D collider = Physics2D.OverlapCircle(transform.position, _radius, _enemyMask);
+
+        if (collider != null)
+        {
+            Debug.Log(collider.name);
+            return collider.GetComponent<Enemy>();
+        }
+
+        return null;
+    }
+
+    private IEnumerator LifeDraining(Enemy enemy)
     {
         for (int i = 0; i < _duration; i++)
         {
-            Collider2D collider = Physics2D.OverlapCircle(transform.position, _radius, _enemyMask);
+            Enemy enemyChecker = SearchEnemy();
 
-            if (collider != null)
+            if (enemyChecker != null && enemyChecker == enemy && enemy.Health.CurrentHealth > 0)
             {
-                _player.Health.AddHealth(_damageInSecond);
-                enemy.Health.TakeDamage(_damageInSecond);
+                if (enemy.Health.CurrentHealth < _damageInSecond)
+                {
+                    _player.Health.AddHealth(enemy.Health.CurrentHealth);
+                    enemy.Health.TakeDamage(enemy.Health.CurrentHealth);
+                }
+                else
+                {
+                    _player.Health.AddHealth(_damageInSecond);
+                    enemy.Health.TakeDamage(_damageInSecond);
+                }
             }
             else
             {
@@ -60,7 +79,6 @@ public class Ability : MonoBehaviour
             yield return _second;
         }
 
-        _canConjure = false;
         StartCoroutine(DelayingAbility());
     }
 

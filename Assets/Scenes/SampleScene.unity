@@ -266,7 +266,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.0031446815, y: 0.0031446815, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -3943,6 +3943,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6883a64a60abfe4e94c11e26bac47ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &345340847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345340849}
+  - component: {fileID: 345340848}
+  m_Layer: 0
+  m_Name: PlayerInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &345340848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345340847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f34e5d09c1da742872df1578eef72d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovement: {fileID: 1686255740}
+  _ability: {fileID: 1686255745}
+--- !u!4 &345340849
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345340847}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.654518, y: -0.24601458, z: -3.102992}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1686255737}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &354660301
 GameObject:
   m_ObjectHideFlags: 0
@@ -5393,6 +5439,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1854983547}
+  - {fileID: 345340849}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1686255738
@@ -5447,6 +5494,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _isGround: 0
+  _playerInput: {fileID: 345340848}
 --- !u!70 &1686255741
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5526,9 +5574,10 @@ MonoBehaviour:
   _duration: 6
   _enemyMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   _canConjure: 1
   _radius: 2
+  _collidersss: []
 --- !u!1 &1699469058
 GameObject:
   m_ObjectHideFlags: 0

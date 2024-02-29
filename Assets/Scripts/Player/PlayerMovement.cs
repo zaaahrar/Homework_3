@@ -9,11 +9,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private LayerMask _ground;
     [SerializeField] private bool _isGround;
+    [SerializeField] private PlayerInput _playerInput;
 
     private const float RayDistance = 1;
-    private const int NumberMovementsRight = 1;
-    private const int NumberMovementsLeft = -1;
 
+    private float _horizontalDirection;
     private Animator _animator;
     private Player _player; 
 
@@ -31,33 +31,32 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         CheckGround();
-
-        if (Input.GetKey(KeyCode.D))
-            MoveHorizontally(_turnRight, NumberMovementsRight);
-        else if (Input.GetKey(KeyCode.A))
-            MoveHorizontally(_turnLeft, NumberMovementsLeft);
-        else
-            _animator.SetBool(IsMovementHash, false);
-
-        if (Input.GetKeyDown(KeyCode.Space) && _isGround)
-            Jump();
     }
 
-    private void Jump()
+    public void TryJump()
     {
-        _player.Rigidbody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+        if(_isGround)
+            _player.Rigidbody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
     }
 
-    private void CheckGround()
+    public void CheckGround()
     {
         RaycastHit2D hit = Physics2D.Raycast(_player.Rigidbody2D.position, Vector2.down, RayDistance, _ground);
         _isGround = hit.collider != null;
     }
 
-    private void MoveHorizontally(Vector3 turn, int direction)
+    public void MoveHorizontally()
     {
-        transform.localScale = turn;
-        transform.Translate(_speed * direction * Time.deltaTime, 0, 0);
+        _horizontalDirection = Input.GetAxisRaw("Horizontal");
         _animator.SetBool(IsMovementHash, true);
+
+        if (_horizontalDirection > 0)
+            transform.localScale = _turnRight;
+        else if(_horizontalDirection < 0)
+            transform.localScale = _turnLeft;
+        else
+            _animator.SetBool(IsMovementHash, false);
+
+        transform.Translate(_speed * _horizontalDirection * Time.deltaTime, 0, 0);
     }
 }
