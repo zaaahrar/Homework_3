@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Player))]
 public class Ability : MonoBehaviour
@@ -10,10 +11,14 @@ public class Ability : MonoBehaviour
     [SerializeField] private LayerMask _enemyMask;
     [SerializeField] private bool _canConjure = true;
     [SerializeField] private float _radius;
+    [SerializeField] private float _maxDistance;
 
     private WaitForSeconds _cooldown;
     private WaitForSeconds _second = new WaitForSeconds(1);
     private Player _player;
+
+    private float _closestDistance = Mathf.Infinity;
+    private Collider2D _closestCollider = null;
 
     private void Awake()
     {
@@ -26,39 +31,59 @@ public class Ability : MonoBehaviour
         if (_canConjure)
         {
             _canConjure = false;
-            Enemy enemy = SearchEnemy();
+            Enemy enemy = SearchNearestEnemy();
 
             if (enemy != null)
-            {
                 StartCoroutine(LifeDraining(enemy));
-            }
             else
-            {
                 StartCoroutine(DelayingAbility());
-            }
         }
     }
-
-    private Enemy SearchEnemy()
+    private Enemy SearchNearestEnemy()
     {
-        Collider2D collider = Physics2D.OverlapCircle(transform.position, _radius, _enemyMask);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _radius, _enemyMask);
 
-        if (collider != null)
+        if (colliders != null)
         {
-            Debug.Log(collider.name);
-            return collider.GetComponent<Enemy>();
+            foreach (Collider2D collider in colliders)
+            {
+                float distance = Vector2.Distance(transform.position, collider.transform.position);
+
+                if (distance < _closestDistance)
+                {
+                    _closestDistance = distance;
+                    _closestCollider = collider;
+                }
+            }
+
+            return _closestCollider.GetComponent<Enemy>();
         }
 
         return null;
+    }
+
+    private bool CheckDistance(Enemy enemy)
+    {
+        if (enemy == null)
+            return false;
+
+        float distance = Vector3.Distance(transform.position, enemy.transform.position);
+
+        if (distance > _maxDistance)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private IEnumerator LifeDraining(Enemy enemy)
     {
         for (int i = 0; i < _duration; i++)
         {
-            Enemy enemyChecker = SearchEnemy();
+            bool isIncludedRadius = CheckDistance(enemy);
 
-            if (enemyChecker != null && enemyChecker == enemy && enemy.Health.CurrentHealth > 0)
+            if (isIncludedRadius && enemy.Health.CurrentHealth > 0)
             {
                 if (enemy.Health.CurrentHealth < _damageInSecond)
                 {
